@@ -3,25 +3,27 @@
 console.log('funguju!');
 
 const inputElm = document.querySelector('.time-input'); //vybírám pole, kam uživatel zadá číslo
-let time = Number(inputElm.value); //převádím vzniklý řetězec na číslo a ukládám do proměnné time
 const alarmElm = document.querySelector('.alarm__seconds') //vybírám pole, kam se propisuje čas
+const audioElm = document.querySelector('audio');
 
-const alarmStart = (event) => {
-
+const countdown = (event) => {
+  let time = Number(inputElm.value); //převádím vzniklý řetězec na číslo a ukládám do proměnné time
   alarmElm.textContent = time;
-  
-  const countdown = () => {
-    time = time - 1;
-    if (time === 0) {
-      clearInterval(timerId);
-    };
-  }
+  console.log(time);
 
-  const timerId = setInterval(countdown, 1000);
+  const timerId = setInterval(() => {
+    time = time - 1;
+    alarmElm.textContent = time;
+    if (time === 0) {
+     alarmElm.className = 'alarm alarm--ring';
+     audioElm.play();
+     clearInterval(timerId);
+    };
+  }, 1000);
   
 }
 
-document.querySelector('button').addEventListener('click', alarmStart);
+document.querySelector('button').addEventListener('click', countdown);
 
 
 
